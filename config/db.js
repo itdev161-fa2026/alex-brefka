@@ -1,8 +1,12 @@
 import mongoose from 'mongoose';
 import config from 'config';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 //Get the connection string
-const db = config.get('mongoURI');
+const db = process.env.MONGOURI || config.get('mongoURI');
 
 //Connect to MongoDB
 const connectDatabase = async () => {
