@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
 import { createPost } from '../services/api';
 import PostForm from '../components/PostForm';
+import toast from 'react-hot-toast';
 import './CreatePost.css';
 
 const CreatePost = () => {
@@ -17,7 +18,7 @@ const CreatePost = () => {
             setLoading(true);
 
             const newPost = await createPost(title, body);
-
+            toast.success("Post Created!");
             // Navigate to the new post
             navigate(`/posts/${newPost._id}`);
         } catch (err) {
@@ -25,6 +26,8 @@ const CreatePost = () => {
                 err.response?.data?.errors?.[0]?.msg ||
                 err.response?.data?.msg ||
                 'Failed to create post. Please try again.';
+
+            toast.error(errorMsg);
             setError(errorMsg);
             setLoading(false);
         }

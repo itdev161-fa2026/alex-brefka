@@ -3,6 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getPostById, deletePost } from '../services/api';
 import { AuthContext } from '../context/authContext';
 import './PostDetail.css';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import toast from 'react-hot-toast';
 
 const PostDetail = () => {
     const { id } = useParams();
@@ -40,24 +43,54 @@ const PostDetail = () => {
     };
 
     const handleDelete = async () => {
-        if (window.confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
-            try {
-                await deletePost(id);
-                navigate('/');
-            } catch (err) {
-                const errorMsg =
-                    err.response?.data?.msg ||
-                    'Failed to delete post. Please try again.';
-                alert(errorMsg);
-            }
-        }
+        toast((t) => (
+            <div className="toast-container">
+                Are you sure you want to delete this post? This action cannot be undone.
+                <div>
+                    <button className="toast-confirm" onClick={async () => {
+                        toast.dismiss(t.id);
+                        try {
+                            await deletePost(id);
+                            toast.success("Post deleted!");
+                            navigate('/');
+                        } catch (err) {
+                            const errorMsg =
+                                err.response?.data?.msg ||
+                                'Failed to delete post. Please try again.';
+                            toast.error(errorMsg);
+                        }
+                    }
+                    }>Confirm</button>
+                    <button className="toast-cancel" onClick={() => toast.dismiss(t.id)}>Cancel</button>
+                </div>
+            </div>
+        )
+        )
     };
 
     // Check if current user owns the post
     const canModify = user && post && user.id === post.user._id;
 
     if (loading) {
-        return <div className="container loading">Loading post...</div>;
+        return <div className="container">
+            <Skeleton className="back-button" height={22} width={120} style={{ backgroundColor: '#61dafb', marginTop: '0.5rem' }} />
+            <article className="post-detail">
+                <h1><Skeleton height={40} width={100} /></h1>
+                <div className="post-detail-meta">
+                    <Skeleton className="post-detail-author" height={20} width={80} />
+                    <Skeleton className="post-detail-date" height={20} width={200} />
+                </div>
+                <div >
+                    <Skeleton className="post-detail-body" height={24} width={'100%'} />
+                </div>
+                {user && (
+                    <div className="post-actions">
+                        <Skeleton className="edit-button" height={45} width={120} />
+                        <Skeleton height={45} width={140} style={{ backgroundColor: '#d32f2f' }} />
+                    </div>
+                )}
+            </article>
+        </div>;
     }
 
     if (error) {

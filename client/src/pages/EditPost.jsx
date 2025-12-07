@@ -3,6 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
 import { getPostById, updatePost } from '../services/api';
 import PostForm from '../components/PostForm';
+import PostFormSkeleton from '../components/PostFormSkeleton';
+import toast from 'react-hot-toast';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import './EditPost.css';
 
 const EditPost = () => {
@@ -45,7 +49,7 @@ const EditPost = () => {
             setSubmitting(true);
 
             await updatePost(id, title, body);
-
+            toast.success("Successfully updated post!");
             // Navigate to the updated post
             navigate(`/posts/${id}`);
         } catch (err) {
@@ -53,6 +57,7 @@ const EditPost = () => {
                 err.response?.data?.errors?.[0]?.msg ||
                 err.response?.data?.msg ||
                 'Failed to update post. Please try again.';
+            toast.error(errorMsg);
             setError(errorMsg);
             setSubmitting(false);
         }
@@ -63,7 +68,12 @@ const EditPost = () => {
     };
 
     if (loading) {
-        return <div className="container loading">Loading post...</div>;
+        return <div className="edit-post-page">
+            <div className='container'>
+                <PostFormSkeleton />
+            </div>
+        </div>
+
     }
 
     if (error && !post) {
