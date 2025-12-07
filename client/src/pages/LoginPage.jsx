@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
 import Login from '../components/Login';
+import toast from 'react-hot-toast';
 import './AuthPages.css';
 
 const LoginPage = () => {
@@ -18,7 +19,10 @@ const LoginPage = () => {
     const handleLogin = async (email, password) => {
         const result = await login(email, password);
         if (result.success) {
+            toast.success("Successfully logged in!");
             navigate('/');
+        } else {
+            toast.error(result.error);
         }
     };
 

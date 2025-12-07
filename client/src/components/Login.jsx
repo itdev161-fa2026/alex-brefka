@@ -53,7 +53,7 @@ const Login = ({ onLogin, error: authError }) => {
             <h2>Welcome Back</h2>
             <p className="login-subtitle">Login to your account</p>
 
-            {authError && <div className="error-message">{authError}</div>}
+            {/* {authError && <div className="error-message">{authError}</div>} */}
 
             <form onSubmit={onSubmit}>
                 <div className="form-group">

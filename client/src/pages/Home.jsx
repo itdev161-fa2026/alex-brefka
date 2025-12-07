@@ -1,9 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PostCard from '../components/PostCard';
+import PostCardSkeleton from '../components/PostCardSkeleton';
 import { getPosts } from '../services/api';
 import { AuthContext } from '../context/authContext';
 import './Home.css';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -31,7 +34,23 @@ const Home = () => {
     }, []);
 
     if (loading) {
-        return <div className="container loading">Loading posts...</div>;
+        return (
+            <div className="container">
+
+                <div className="home-header">
+                    <Skeleton width={200} height={40} />
+                    {user ? (
+                        <Skeleton className="create-post-button" width={170} height={40} />
+                    ) : (
+                        <Skeleton className="auth-message" width={250} height={20} />
+                    )}
+                </div>
+                <PostCardSkeleton />
+                <PostCardSkeleton />
+                <PostCardSkeleton />
+                <PostCardSkeleton />
+            </div>
+        );
     }
 
     if (error) {

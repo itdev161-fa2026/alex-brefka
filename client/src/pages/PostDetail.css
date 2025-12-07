@@ -94,3 +94,45 @@
     color: #21a1c4;
     text-decoration: underline;
 }
+
+.toast-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.toast-confirm {
+    margin: 0.2rem;
+    padding: 2px;
+    background-color: transparent;
+    color: #d32f2f;
+    border: 2px solid #d32f2f;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.toast-confirm:hover {
+    background-color: #d32f2f;
+    color: white;
+}
+
+.toast-cancel {
+    margin: 0.2rem;
+    padding: 2px;
+    background-color: transparent;
+    color: black;
+    border: 2px solid black;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.toast-cancel:hover {
+    background-color: black;
+    color: white;
+}

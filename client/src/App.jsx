@@ -8,6 +8,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import CreatePost from './pages/CreatePost';
 import EditPost from './pages/EditPost';
+import { Toaster } from 'react-hot-toast';
 import './App.css';
 
 function App() {
@@ -15,6 +16,29 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="App">
+          <Toaster position="top-center" reverseOrder={false} toastOptions={{
+            success: {
+              style: {
+                background: 'white',
+                color: 'black'
+              },
+              iconTheme: {
+                primary: '#61dafb',
+                secondary: 'white'
+              }
+            },
+
+            error: {
+              style: {
+                background: 'white',
+                color: 'black'
+              },
+              iconTheme: {
+                primary: '#d32f2f',
+                secondary: 'white'
+              }
+            }
+          }} />
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
